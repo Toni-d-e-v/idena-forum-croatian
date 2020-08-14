@@ -1,0 +1,48 @@
+<!-- DEFINE $NAV_SECTION = 'login' -->
+<!-- INCLUDE overall_header.html -->
+
+
+<div class="panel">
+	<div class="inner">
+
+		<div class="content">
+			<h2 class="login-title" style="text-align: center;"><!-- IF S_ADMIN_AUTH -->Admin Dashboard<!-- ELSE -->Login - Register<!-- ENDIF --></h2><div>
+
+				<!-- IF S_ADMIN_AUTH -->
+				<p>Hello please login again to access the admin dashboard</p>
+				<!-- ELSE -->
+				<p>By signing in/up You agree to our <a href="../ucp.php?mode=terms">Terms</a>.<br>
+				   Please download idena wallet from official website:  <a href="https://idena.io">idena.io</a> <br>
+				   Install, synchronize wallet and click the (Login or Register with Idena) button</p>
+				<!-- ENDIF -->
+
+
+				<input type="submit" onclick="opendnaurl();" tabindex="4" value="Login or Register with Idena"
+					class="button1 center-block" style="padding: 9px;"></input>
+			</div>
+		</div>
+
+	</div>
+	<script type="text/javascript">
+		function opendnaurl() {
+			var url = window.location.origin;
+
+			$.getJSON(url + '/auth/T.php', function (data) {
+
+				var urxl = 'dna://signin/v1?nonce_endpoint=' + url + '/auth/start-session.php&token=' + data.token +
+					'&callback_url=' + url + '/auth/check.php&authentication_endpoint=' + url + '/auth/auth.php';
+				window.open(encodeURI(urxl), '_self');
+				console.log(encodeURI(urxl));
+
+
+
+			});
+
+		}
+	</script>
+</div>
+
+
+
+
+<!-- INCLUDE overall_footer.html -->
