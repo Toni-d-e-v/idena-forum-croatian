@@ -58,11 +58,11 @@ return 11;
 }elseif($status == 'Zombie'){
     return 13;
 }elseif($status == 'Undefined'){
-    return false;
+    return 16;
 }elseif($status == 'Candidate'){
     return 9;
 }else{
-    return false;
+    return 16;
 }
 }
 function getid($username,$conn){

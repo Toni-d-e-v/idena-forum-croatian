@@ -16,7 +16,7 @@
 	<div class="copyright">
 		<!-- EVENT overall_footer_copyright_prepend -->
 		<p class="footer-row">
-			<span class="footer-copyright">Powered by phpBB</span>
+			<span class="footer-copyright">Powered by phpBB  - Idena Forum is community project not affiliated with official Idena team</span>
 		</p>
 		<p class="footer-row">
 			<span class="footer-copyright">Donations : <a href="https://scan.idena.io/address/0x9e86c70d870b78e83484fdfd8c5d5c0f9fb88954/">0x9e86c70d870b78e83484fdfd8c5d5c0f9fb88954</a></span>
@@ -125,6 +125,45 @@
 {$SCRIPTS}
 
 <!-- EVENT overall_footer_body_after -->
+<script>
 
+	var mydata = [];
+	$.ajax({
+	  url: 'https://api.idena.org/api/epoch/last',
+	  async: false,
+	  dataType: 'json',
+	  success: function (json) {
+		mydata = json.result.validationTime;
+	  }
+	});
+					// Set the date we're counting down to
+					var countDownDate = new Date(mydata).getTime();
+					
+					// Update the count down every 1 second
+					var x = setInterval(function() {
+					
+					  // Get today's date and time
+					  var now = new Date().getTime();
+						
+					  // Find the distance between now and the count down date
+					  var distance = countDownDate - now;
+						
+					  // Time calculations for days, hours, minutes and seconds
+					  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+					  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+					  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+					  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+						
+					  // Output the result in an element with id="demo"
+					  document.getElementById("countdown").innerHTML = days + "d " + hours + "h "
+					  + minutes + "m " + seconds + "s " + 'Till next validation';
+						
+					  // If the count down is over, write some text 
+					  if (distance < 0) {
+						clearInterval(x);
+						document.getElementById("countdown").innerHTML = " - ";
+					  }
+					}, 1000);
+					</script>
 </body>
 </html>
