@@ -40,47 +40,71 @@ function getstatus($addressBB)
     }
 
 }
-function doublecheckexist($addressZOO,$conn){
+function doublecheckexist($addressZOO, $conn)
+{
     $sql = "SELECT `address` FROM `phpbb_users` WHERE `address` = '" . $addressZOO . "'LIMIT 1;";
     $result = $conn->query($sql);
     $rowx = $result->fetch_row();
     return isset($rowx[0]);
 }
-function solvegid($status){
-if($status == 'Human'){
-return 11;
-}elseif($status == 'Verified'){
-    return 10;
-}elseif($status == 'Newbie'){
-    return 8;
-}elseif($status == 'Suspended'){
-    return 12;
-}elseif($status == 'Zombie'){
-    return 13;
-}elseif($status == 'Undefined'){
-    return 16;
-}elseif($status == 'Candidate'){
-    return 9;
-}else{
-    return 16;
+function solvegid($status)
+{
+    if ($status == 'Human')
+    {
+        return 11;
+    }
+    elseif ($status == 'Verified')
+    {
+        return 10;
+    }
+    elseif ($status == 'Newbie')
+    {
+        return 8;
+    }
+    elseif ($status == 'Suspended')
+    {
+        return 12;
+    }
+    elseif ($status == 'Zombie')
+    {
+        return 13;
+    }
+    elseif ($status == 'Undefined')
+    {
+        return 16;
+    }
+    elseif ($status == 'Candidate')
+    {
+        return 9;
+    }
+    elseif ($status == 'Killed')
+    {
+        return 15;
+    }
+    else
+    {
+        return 16;
+    }
 }
-}
-function getid($username,$conn){
+function getid($username, $conn)
+{
     $sql = "SELECT `user_id` FROM `phpbb_users` WHERE `username` = '" . $username . "'LIMIT 1;";
     $result = $conn->query($sql);
     $rowx = $result->fetch_row();
     return $rowx[0];
 }
 function CreateAccount($addressZZ, $conn)
-{   
-    if(doublecheckexist($addressZZ,$conn) == true){
+{
+    if (doublecheckexist($addressZZ, $conn) == true)
+    {
         header("Location: ../index.php");
         die();
     };
     $Newusername = generateRandomString(15);
     $status = getstatus($addressZZ);
     $gid = solvegid($status);
-    if($gid == false){
+    if ($gid == false)
+    {
         header("Location: ../index.php");
         die();
     }
@@ -149,19 +173,19 @@ if ($user->data['is_registered'])
 else
 {
 
-    
-     $user->session_kill();
+    $user->session_kill();
 
-     $result =  $user->session_create(getid($username,$conn), 1,0, 1);
+    $result = $user->session_create(getid($username, $conn) , 1, 0, 1);
     if ($result)
     {
-    unset($_SESSION['token']);
-    if($newaccount){
-    header("Location: ../memberlist.php?mode=viewprofile&u=".getid($username,$conn));
-    die();
-    }
-    header("Location: ../index.php");
-    die();
+        unset($_SESSION['token']);
+        if ($newaccount)
+        {
+            header("Location: ../memberlist.php?mode=viewprofile&u=" . getid($username, $conn));
+            die();
+        }
+        header("Location: ../index.php");
+        die();
     }
     else
     {
